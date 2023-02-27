@@ -1,4 +1,4 @@
-package com.denicks21.roomdatabase.screens
+package com.denicks21.roomdatabase.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

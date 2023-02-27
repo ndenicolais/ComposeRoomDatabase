@@ -1,4 +1,4 @@
-package com.denicks21.roomdatabase.screens
+package com.denicks21.roomdatabase.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.DrawerValue

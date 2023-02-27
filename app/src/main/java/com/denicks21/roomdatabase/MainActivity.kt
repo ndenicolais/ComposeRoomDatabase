@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.SideEffect
-import com.denicks21.roomdatabase.screens.MainPage
+import com.denicks21.roomdatabase.screen.MainPage
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.ui.theme.RoomDatabaseTheme
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel

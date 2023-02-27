@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.denicks21.roomdatabase.screens.*
+import com.denicks21.roomdatabase.screen.*
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable

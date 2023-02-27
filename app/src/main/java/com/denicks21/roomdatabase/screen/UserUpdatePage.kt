@@ -1,4 +1,4 @@
-package com.denicks21.roomdatabase.screens
+package com.denicks21.roomdatabase.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,32 +30,47 @@ import com.denicks21.roomdatabase.ui.composables.CustomTextField
 import com.denicks21.roomdatabase.ui.composables.CustomToolbar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
-
-var usId: String = ""
-var usName: String = ""
-var usSurname: String = ""
-var usCity: String = ""
-var usPhone: String = ""
-var usEmail: String = ""
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun UserAddPage(
+fun UserUpdatePage(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
     openDrawer: () -> Unit,
+    userToEdit: String?,
+    isEdit: Boolean,
 ) {
+    lateinit var selectedUser: User
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val message = remember { mutableStateOf(false) }
 
-    clearAll()
+    homeViewModel.findUserById(userToEdit!!)
+    selectedUser = homeViewModel.foundUser.observeAsState().value!!
+    usId = selectedUser.userId.toString()
+    usName = selectedUser.userName
+    usSurname = selectedUser.userSurname
+    usCity = selectedUser.userCity
+    usPhone = selectedUser.userPhone.toString()
+    usEmail = selectedUser.userEmail
+
+    suspend fun showEditMessage() {
+        if (!message.value) {
+            message.value = true
+            delay(3000L)
+            message.value = false
+        }
+    }
 
     val scrollState = rememberScrollState()
+    val isEdited = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             CustomToolbar(
-                title = "Add User",
+                title = "Update User",
                 openDrawer
             )
         },
@@ -81,7 +97,7 @@ fun UserAddPage(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
-                        readOnly = false,
+                        readOnly = true,
                         labelString = "User ID",
                         inputWrapper = usId,
                         keyboardOptions = KeyboardOptions(
@@ -93,6 +109,7 @@ fun UserAddPage(
                         maxLength = 5,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usId = it
                     }
                     CustomTextField(
@@ -111,6 +128,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usName = it
                     }
                     CustomTextField(
@@ -129,6 +147,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usSurname = it
                     }
                     CustomTextField(
@@ -147,6 +166,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usCity = it
                     }
                     CustomTextField(
@@ -165,6 +185,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usPhone = it
                     }
                     CustomTextField(
@@ -183,15 +204,18 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isEdited.value = true
                         usEmail = it
                     }
                     Spacer(
                         modifier = Modifier.height(20.dp)
                     )
                     Button(
+                        enabled = isEdited.value,
                         onClick = {
+                            if (isEdited.value) {
                                 val user = User(
-                                    id = usId.trim().toInt(),
+                                    id = selectedUser.id,
                                     userId = usId.trim().toLong(),
                                     userName = usName,
                                     userSurname = usSurname,
@@ -199,16 +223,25 @@ fun UserAddPage(
                                     userPhone = usPhone.toLong(),
                                     userEmail = usEmail
                                 )
-                                addUserInDB(context, navController, user, homeViewModel)
+                                if (isEdit) {
+                                    updateUserInDB(context, navController, user, homeViewModel)
+                                } else {
+                                    addUserInDB(context, navController, user, homeViewModel)
+                                }
                                 clearAll()
+                            } else {
+                                coroutineScope.launch {
+                                    showEditMessage()
+                                }
+                            }
                         },
                         modifier = Modifier
                             .height(50.dp)
-                            .width(100.dp)
+                            .width(120.dp)
                             .padding(bottom = 10.dp)
                     ) {
                         Text(
-                            text = "Add",
+                            text = "Update",
                             modifier = Modifier.fillMaxWidth(),
                             color = GreyDark,
                             fontSize = 18.sp,
@@ -221,21 +254,12 @@ fun UserAddPage(
     )
 }
 
-fun clearAll() {
-    usId = ""
-    usName = ""
-    usSurname = ""
-    usCity = ""
-    usPhone = ""
-}
-
-fun addUserInDB(
+fun updateUserInDB(
     context: Context,
     navController: NavHostController,
     user: User,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
 ) {
-    homeViewModel.addUser(user)
+    homeViewModel.updateUserDetails(user)
     navController.popBackStack()
 }
-
