@@ -1,4 +1,4 @@
-package com.denicks21.roomdatabase.screens
+package com.denicks21.roomdatabase.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -21,6 +21,7 @@ import com.denicks21.roomdatabase.R
 import com.denicks21.roomdatabase.ui.composables.CustomToolbar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.ui.theme.GreyLight
+import com.denicks21.roomdatabase.ui.theme.YellowDark
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -78,14 +79,39 @@ fun InfoPage(
                                 modifier = Modifier.height(10.dp)
                             )
                             Divider(
-                                thickness = 1.dp,
+                                thickness = 1.5.dp,
+                                color = GreyDark
+                            )
+                            Divider(
+                                thickness = 2.dp,
+                                color = YellowDark
+                            )
+                            Divider(
+                                thickness = 1.5.dp,
                                 color = GreyDark
                             )
                             Spacer(
                                 modifier = Modifier.height(10.dp)
                             )
                             Text(
-                                text = "App for store date with Room",
+                                text = "Android application built with Kotlin and Jetpack Compose that shows " +
+                                        "how to perform CRUD operations in the Room database using Android Architecture Components " +
+                                        "and the MVVM Architecture Pattern.",
+                                color = GreyDark
+                            )
+                            Spacer(
+                                modifier = Modifier.height(10.dp)
+                            )
+                            Divider(
+                                thickness = 1.5.dp,
+                                color = GreyDark
+                            )
+                            Divider(
+                                thickness = 2.dp,
+                                color = YellowDark
+                            )
+                            Divider(
+                                thickness = 1.5.dp,
                                 color = GreyDark
                             )
                         }
