@@ -2,6 +2,7 @@ package com.denicks21.roomdatabase.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,19 +22,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.denicks21.roomdatabase.model.User
+import com.denicks21.roomdatabase.navigation.NavScreens
 import com.denicks21.roomdatabase.navigation.NavScreens.UserUpdatePage.title
-import com.denicks21.roomdatabase.ui.composables.CustomMessage
 import com.denicks21.roomdatabase.ui.composables.CustomTextField
 import com.denicks21.roomdatabase.ui.composables.CustomTopBar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -43,27 +41,16 @@ fun UserUpdatePage(
     userToEdit: String?,
     isEdit: Boolean,
 ) {
-    lateinit var selectedUser: User
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
-    val message = remember { mutableStateOf(false) }
 
     homeViewModel.findUserById(userToEdit!!)
-    selectedUser = homeViewModel.foundUser.observeAsState().value!!
+    val selectedUser: User = homeViewModel.foundUser.observeAsState().value!!
     usId = selectedUser.userId.toString()
     usName = selectedUser.userName
     usSurname = selectedUser.userSurname
     usCity = selectedUser.userCity
     usPhone = selectedUser.userPhone.toString()
     usEmail = selectedUser.userEmail
-
-    suspend fun showEditMessage() {
-        if (!message.value) {
-            message.value = true
-            delay(3000L)
-            message.value = false
-        }
-    }
 
     val scrollState = rememberScrollState()
     val isEdited = remember { mutableStateOf(false) }
@@ -91,9 +78,8 @@ fun UserUpdatePage(
                         Icons.Outlined.AccountCircle,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(140.dp)
+                        modifier = Modifier.size(120.dp)
                     )
-                    CustomMessage(message.value)
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -211,10 +197,11 @@ fun UserUpdatePage(
                     Spacer(
                         modifier = Modifier.height(20.dp)
                     )
-                    Button(
-                        enabled = isEdited.value,
+                    FloatingActionButton(
                         onClick = {
-                            if (isEdited.value) {
+                            if (
+                                isEdited.value
+                            ) {
                                 val user = User(
                                     id = selectedUser.id,
                                     userId = usId.trim().toLong(),
@@ -226,27 +213,25 @@ fun UserUpdatePage(
                                 )
                                 if (isEdit) {
                                     updateUserInDB(context, navController, user, homeViewModel)
-                                } else {
-                                    addUserInDB(context, navController, user, homeViewModel)
+                                    Toast.makeText(
+                                        context, "User updated", Toast.LENGTH_SHORT
+                                    ).show()
+                                    navController.navigate(
+                                        NavScreens.UserListPage.route
+                                    )
                                 }
-                                clearAll()
                             } else {
-                                coroutineScope.launch {
-                                    showEditMessage()
-                                }
+                                Toast.makeText(
+                                    context, "Update at least one information", Toast.LENGTH_SHORT
+                                ).show()
                             }
                         },
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(120.dp)
-                            .padding(bottom = 10.dp)
+                        backgroundColor = GreyDark,
+                        contentColor = Color.White
                     ) {
-                        Text(
-                            text = "Update",
-                            modifier = Modifier.fillMaxWidth(),
-                            color = GreyDark,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center
+                        Icon(
+                            imageVector = Icons.Filled.Save,
+                            contentDescription = "Update user"
                         )
                     }
                 }
