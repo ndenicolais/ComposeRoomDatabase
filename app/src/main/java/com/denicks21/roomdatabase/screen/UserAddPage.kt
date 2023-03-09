@@ -24,9 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.denicks21.roomdatabase.model.User
+import com.denicks21.roomdatabase.navigation.NavScreens.UserAddPage.title
 import com.denicks21.roomdatabase.ui.composables.CustomMessage
 import com.denicks21.roomdatabase.ui.composables.CustomTextField
-import com.denicks21.roomdatabase.ui.composables.CustomToolbar
+import com.denicks21.roomdatabase.ui.composables.CustomTopBar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
 
@@ -53,8 +54,8 @@ fun UserAddPage(
 
     Scaffold(
         topBar = {
-            CustomToolbar(
-                title = "Add User",
+            CustomTopBar(
+                title,
                 openDrawer
             )
         },

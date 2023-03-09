@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.denicks21.roomdatabase.model.User
 import com.denicks21.roomdatabase.navigation.NavScreens
-import com.denicks21.roomdatabase.ui.composables.CustomToolbar
+import com.denicks21.roomdatabase.navigation.NavScreens.UserDetailsPage.title
+import com.denicks21.roomdatabase.ui.composables.CustomTopBar
 import com.denicks21.roomdatabase.ui.theme.*
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
 
@@ -43,8 +44,8 @@ fun UserDetailsPage(
 
     Scaffold(
         topBar = {
-            CustomToolbar(
-                title = "User Details",
+            CustomTopBar(
+                title,
                 openDrawer
             )
         }
