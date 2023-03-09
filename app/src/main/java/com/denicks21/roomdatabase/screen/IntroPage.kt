@@ -38,7 +38,7 @@ fun IntroPage(navController: NavHostController) {
                 }
             )
         )
-        delay(800L)
+        delay(500L)
         navController.navigate("UserListPage")
     }
     Box(
