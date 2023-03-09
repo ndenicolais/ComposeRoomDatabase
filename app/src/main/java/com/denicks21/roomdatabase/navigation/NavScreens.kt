@@ -1,6 +1,7 @@
 package com.denicks21.roomdatabase.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -8,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class NavScreens(val title: String, val route: String, var icon: ImageVector) {
     object IntroPage : NavScreens(
-        "Intro", "IntroPage", Icons.Default.Home
+        "Intro", "IntroPage", Icons.Default.Android
     )
 
     object UserListPage : NavScreens(
@@ -16,15 +17,15 @@ sealed class NavScreens(val title: String, val route: String, var icon: ImageVec
     )
 
     object UserAddPage : NavScreens(
-        "Add User", "UserAddPage", Icons.Default.Info
+        "Add User", "UserAddPage", Icons.Default.Android
     )
 
     object UserUpdatePage : NavScreens(
-        "Update User", "UserUpdatePage", Icons.Default.Info
+        "Update User", "UserUpdatePage", Icons.Default.Android
     )
 
     object UserDetailsPage : NavScreens(
-        "User Details", "UserDetailsPage", Icons.Default.Info
+        "User Details", "UserDetailsPage", Icons.Default.Android
     )
 
     object InfoPage: NavScreens(
