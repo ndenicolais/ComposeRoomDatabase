@@ -2,6 +2,7 @@ package com.denicks21.roomdatabase.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,6 +10,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardReturn
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,13 +22,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.denicks21.roomdatabase.model.User
+import com.denicks21.roomdatabase.navigation.NavScreens
 import com.denicks21.roomdatabase.navigation.NavScreens.UserAddPage.title
-import com.denicks21.roomdatabase.ui.composables.CustomMessage
 import com.denicks21.roomdatabase.ui.composables.CustomTextField
 import com.denicks21.roomdatabase.ui.composables.CustomTopBar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
@@ -46,11 +47,11 @@ fun UserAddPage(
     openDrawer: () -> Unit,
 ) {
     val context = LocalContext.current
-    val message = remember { mutableStateOf(false) }
 
     clearAll()
 
     val scrollState = rememberScrollState()
+    val isAdded = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -75,9 +76,8 @@ fun UserAddPage(
                         Icons.Outlined.AccountCircle,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(140.dp)
+                        modifier = Modifier.size(120.dp)
                     )
-                    CustomMessage(message.value)
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -94,6 +94,7 @@ fun UserAddPage(
                         maxLength = 5,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usId = it
                     }
                     CustomTextField(
@@ -112,6 +113,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usName = it
                     }
                     CustomTextField(
@@ -130,6 +132,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usSurname = it
                     }
                     CustomTextField(
@@ -148,6 +151,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usCity = it
                     }
                     CustomTextField(
@@ -166,6 +170,7 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usPhone = it
                     }
                     CustomTextField(
@@ -184,37 +189,66 @@ fun UserAddPage(
                         maxLength = 50,
                         maxLines = 1
                     ) {
+                        isAdded.value = true
                         usEmail = it
                     }
                     Spacer(
                         modifier = Modifier.height(20.dp)
                     )
-                    Button(
-                        onClick = {
-                                val user = User(
-                                    id = usId.trim().toInt(),
-                                    userId = usId.trim().toLong(),
-                                    userName = usName,
-                                    userSurname = usSurname,
-                                    userCity = usCity,
-                                    userPhone = usPhone.toLong(),
-                                    userEmail = usEmail
-                                )
-                                addUserInDB(context, navController, user, homeViewModel)
-                                clearAll()
-                        },
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(100.dp)
-                            .padding(bottom = 10.dp)
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.Bottom
                     ) {
-                        Text(
-                            text = "Add",
-                            modifier = Modifier.fillMaxWidth(),
-                            color = GreyDark,
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center
-                        )
+                        FloatingActionButton(
+                            onClick = {
+                                navController.navigate(
+                                    NavScreens.UserListPage.route
+                                )
+                            },
+                            backgroundColor = GreyDark,
+                            contentColor = Color.White
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.KeyboardReturn,
+                                contentDescription = "Back"
+                            )
+                        }
+                        FloatingActionButton(
+                            onClick = {
+                                if (
+                                    (isAdded.value) &&
+                                    (usId.isNotEmpty()) &&
+                                    (usName.isNotEmpty()) &&
+                                    (usSurname.isNotEmpty()) &&
+                                    (usCity.isNotEmpty()) &&
+                                    (usEmail.isNotEmpty())
+                                ) {
+                                    val user = User(
+                                        id = usId.trim().toInt(),
+                                        userId = usId.trim().toLong(),
+                                        userName = usName,
+                                        userSurname = usSurname,
+                                        userCity = usCity,
+                                        userPhone = usPhone.toLong(),
+                                        userEmail = usEmail
+                                    )
+                                    addUserInDB(context, navController, user, homeViewModel)
+                                    clearAll()
+                                } else {
+                                    Toast.makeText(
+                                        context, "Please add User details", Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            },
+                            backgroundColor = GreyDark,
+                            contentColor = Color.White
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Add,
+                                contentDescription = "Add user"
+                            )
+                        }
                     }
                 }
             }
@@ -234,7 +268,7 @@ fun addUserInDB(
     context: Context,
     navController: NavHostController,
     user: User,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
 ) {
     homeViewModel.addUser(user)
     navController.popBackStack()
