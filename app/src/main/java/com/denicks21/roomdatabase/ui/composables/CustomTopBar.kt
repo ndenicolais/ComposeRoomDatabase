@@ -10,7 +10,10 @@ import androidx.compose.ui.unit.sp
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 
 @Composable
-fun CustomToolbar(title: String, onButtonClicked: () -> Unit) {
+fun CustomTopBar(
+    title: String,
+    onButtonClicked: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(
