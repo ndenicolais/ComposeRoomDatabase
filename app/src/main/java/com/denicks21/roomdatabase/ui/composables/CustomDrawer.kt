@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import com.denicks21.roomdatabase.R
 import com.denicks21.roomdatabase.navigation.NavScreens
 import com.denicks21.roomdatabase.ui.theme.GreyDark
-import com.denicks21.roomdatabase.ui.theme.GreyLight
 import com.denicks21.roomdatabase.ui.theme.YellowDark
 
 private val screens = listOf(
@@ -34,12 +32,13 @@ private val screens = listOf(
 
 @Composable
 fun CustomDrawer(
-    modifier: Modifier = Modifier, onDestinationClicked: (route: String) -> Unit
+    modifier: Modifier = Modifier,
+    onDestinationClicked: (route: String) -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(GreyLight)
+            .background(GreyDark)
     ) {
         Column(
             modifier = Modifier
@@ -51,7 +50,7 @@ fun CustomDrawer(
                 text = stringResource(
                     id = R.string.app_name
                 ),
-                color = GreyDark,
+                color = YellowDark,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp
             )
@@ -69,15 +68,12 @@ fun CustomDrawer(
         }
     }
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(YellowDark)
     ) {
-        Divider(
-            color = Color.LightGray
-        )
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             screens.forEach { screen ->
@@ -98,7 +94,7 @@ fun CustomDrawer(
                         contentDescription = screen.title
                     )
                     Spacer(
-                        modifier = Modifier.width(7.dp)
+                        modifier = Modifier.height(10.dp)
                     )
                     Text(
                         text = screen.title,
@@ -108,7 +104,8 @@ fun CustomDrawer(
                     )
                 }
                 Divider(
-                    color = Color.LightGray
+                    color = GreyDark,
+                    thickness = 0.5.dp
                 )
             }
             Spacer(
@@ -117,7 +114,7 @@ fun CustomDrawer(
             Text(
                 text = "Developed by DeNicks21 \n" +
                         "v." + com.denicks21.roomdatabase.BuildConfig.VERSION_NAME,
-                color = Color.Gray,
+                color = GreyDark,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.caption,
                 modifier = Modifier
