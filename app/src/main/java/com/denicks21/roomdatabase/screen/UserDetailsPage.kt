@@ -128,7 +128,11 @@ fun UserDetailsPage(
                         Spacer(
                             modifier = Modifier.weight(1f)
                         )
-                        Row {
+                        Row(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
                             if (showDialog.value) {
                                 DeleteDialog(navController,
                                     homeViewModel,
@@ -149,9 +153,6 @@ fun UserDetailsPage(
                                     contentDescription = "Delete user"
                                 )
                             }
-                            Spacer(
-                                modifier = Modifier.width(50.dp)
-                            )
                             FloatingActionButton(
                                 onClick = {
                                     navController.navigate(
@@ -168,9 +169,6 @@ fun UserDetailsPage(
                                     contentDescription = "Edit user"
                                 )
                             }
-                            Spacer(
-                                modifier = Modifier.width(50.dp)
-                            )
                             FloatingActionButton(
                                 onClick = {
                                     navController.navigate(
