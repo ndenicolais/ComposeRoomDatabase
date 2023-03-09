@@ -30,7 +30,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.denicks21.roomdatabase.model.User
 import com.denicks21.roomdatabase.navigation.NavScreens
-import com.denicks21.roomdatabase.ui.composables.CustomToolbar
+import com.denicks21.roomdatabase.navigation.NavScreens.UserListPage.title
+import com.denicks21.roomdatabase.ui.composables.CustomBackPress
+import com.denicks21.roomdatabase.ui.composables.CustomTopBar
 import com.denicks21.roomdatabase.ui.theme.GreyDark
 import com.denicks21.roomdatabase.ui.theme.YellowDark
 import com.denicks21.roomdatabase.viewmodels.HomeViewModel
@@ -42,12 +44,17 @@ fun UserListPage(
     homeViewModel: HomeViewModel,
     openDrawer: () -> Unit,
 ) {
+    CustomBackPress(
+        onBackPressed = {}
+    )
+
     homeViewModel.getAllUsers()
     val lazyListState = rememberLazyListState()
+
     Scaffold(
         topBar = {
-            CustomToolbar(
-                title = "User List",
+            CustomTopBar(
+                title,
                 openDrawer
             )
         },
@@ -142,6 +149,7 @@ private fun LazyListState.isScrollingUp(): Boolean {
 @Composable
 fun UserCard(user: User, navController: NavHostController) {
     val expanded = remember { mutableStateOf(true) }
+
     Card(
         modifier = Modifier
             .padding(10.dp)
