@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -87,8 +88,10 @@ fun UserListPage(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "No users onboarded yet.",
+                        text = "Empty list.\n\n" +
+                                "Add a new User by clicking on the button at the bottom right",
                         fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .wrapContentWidth()
                             .wrapContentHeight(),
