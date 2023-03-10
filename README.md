@@ -4,6 +4,12 @@
 ## 📍 Description
 Android application built with Kotlin and Jetpack Compose that shows how to perform CRUD operations in the Room database using Android Architecture Components and the MVVM Architecture Pattern.
 
+The app displays a list of items (users) from the inventory database. The user has options to add a new item, update an existing item, and delete an item from the inventory database. For this codelab, you save the item data to the Room database.<br/>
+The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. In particular, Room provides the following benefits:<br/>
+- Compile-time verification of SQL queries.
+- Convenience annotations that minimize repetitive and error-prone boilerplate code.
+- Streamlined database migration paths.
+
 ## ⚡ Structure
 ### Tech Stacks
 #### Coroutines
