@@ -29,6 +29,7 @@ LiveData is an observable data holder class. Unlike a regular observable, LiveDa
 
 ```
 com.denicks21.roomdatabase      # Root Package
+│
 ├── database                    # Database folder
 │   ├── UserDao                 # Interface class.
 │   ├── UserDatabase            # Room database.
@@ -56,7 +57,7 @@ com.denicks21.roomdatabase      # Root Package
 |   │   ├── UserUpdatePage      # Page that allows to update user details.
 │
 ├── ui                          # UI resources folder
-│   ├── composables             # Composable components
+│   ├── composables             # Composable components folder
 |   │   ├── CustomBackPress     # Component that control and prevent back button action.
 |   │   ├── CustomDrawer        # Navigation drawer menu with app screens.
 |   │   ├── CustomTextField     # TextField customized for entering input details.
@@ -70,6 +71,7 @@ com.denicks21.roomdatabase      # Root Package
 |
 ├── viewmodels                  # ViewModel folder
 |   │   ├── HomeViewModel       # Model that interact with repository class.
+│
 ├── MainActivity                # Main activity
 ├── RoomDatabase                # Trigger Hilt's code generation.
 ```
